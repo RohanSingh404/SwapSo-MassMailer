@@ -23,9 +23,9 @@ To run this project on your local machine, follow these steps:
 4. Create a `.env` file in the root directory and add the following variables:
 
 - BASEURL=`/api/v1`
-- DATABASE=<your-mongodb-uri>
-- Secret_Code=<your-jwt-secret>
-- Mail_Secret=<your-sendgrid-api-key>
+- DATABASE= `<your-mongodb-url>`
+- Secret_Code= `<your-jwt-secret>`
+- Mail_Secret= `<your-sendgrid-api-key>`
 
 5. Start the development server using `npm start`
 6. Navigate to the project frontend directory using `cd frontend`
