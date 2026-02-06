@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
-import HTMLRenderer from "react-html-renderer";
+import DOMPurify from "dompurify";
 
 const customStyles = {
   content: {
@@ -11,35 +11,38 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     height: "75%",
-    // marginTop: "70px",
   },
 };
 
 Modal.setAppElement("#root");
 
 function PreviewModal({ view, closeView, code }) {
-  const [modalIsOpen, setIsOpen] = useState(view);
-  const [closeModal, setCloseModal] = useState(false);
+  const [modalIsOpen] = useState(view);
 
-  const html = code ? `${code}` : "<p>Enter any code </p>";
+  // 🧼 Sanitize user HTML (removes scripts, JS events, iframes etc.)
+  const cleanHtml = DOMPurify.sanitize(code || "<p>Enter any code</p>", {
+    USE_PROFILES: { html: true },
+  });
 
   return (
     <div>
       <Modal
         isOpen={modalIsOpen}
-        // onAfterOpen={afterOpenModal}
-        onRequestClose={closeModal}
+        onRequestClose={() => closeView(false)}
         style={customStyles}
-        contentLabel='Example Modal'
+        contentLabel="Preview Modal"
       >
-        <div className='modal-container-preview'>
+        <div className="modal-container-preview">
           <h2 style={{ padding: "20px" }}>Preview</h2>
-          <div className='preview-container'>
-            {modalIsOpen ? <HTMLRenderer html={html} /> : ""}
-          </div>
+
+          <div
+            className="preview-container"
+            dangerouslySetInnerHTML={{ __html: cleanHtml }}
+          />
+
           <button
-            className='preview_md_btn'
-            type='button'
+            className="preview_md_btn"
+            type="button"
             onClick={() => closeView(false)}
           >
             Close
