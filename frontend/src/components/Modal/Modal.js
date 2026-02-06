@@ -37,12 +37,12 @@ const GroupModal = ({ handleModal }) => {
   const handleSubmit = () => {
     const token = getToken();
     const config = {
-      headers: { Authorization: token },
+      headers: { Authorization: `Bearer ${token}` },
     };
     setIsLoading(true);
     axios
       .post(
-        `http://localhost:3100/api/v1/user/addgroup`,
+        `http://localhost:3100/api/user/addgroup`,
         {
           name: name,
           emails: validEmails,
@@ -74,7 +74,7 @@ const GroupModal = ({ handleModal }) => {
         <h2>Add Group</h2>
         <form>
           <div className='form-group'>
-            <div class='text-box'>
+            <div className='text-box'>
               <label
                 htmlFor='name'
                 className='labels'

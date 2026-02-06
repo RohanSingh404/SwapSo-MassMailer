@@ -3,7 +3,7 @@ const User = require("../Models/User");
 const Sent = require("../Models/Sent");
 const Template = require("../Models/Template");
 const bcrypt = require("bcrypt");
-const { sendMail } = require("../services/mail");
+const sendMail = require("../services/mail");
 const generateToken = require("../utils/generateToken");
 
 const addGroup = async (req, res) => {
@@ -12,7 +12,7 @@ const addGroup = async (req, res) => {
     emails: req.body.emails,
     userId: req.user._id,
   });
-  if (!group)
+  if (group.length === 0)
     return res
       .status(400)
       .send({ success: false, message: "Failed to add group" });
@@ -28,7 +28,7 @@ const addGroup = async (req, res) => {
 
 const viewGroups = async (req, res) => {
   const groups = await Group.find({ userId: req.user._id });
-  if (!groups)
+  if (groups.length === 0)
     return res.status(500).send({ success: false, message: "No groups found" });
   res
     .status(200)
@@ -36,31 +36,69 @@ const viewGroups = async (req, res) => {
 };
 
 const sendMails = async (req, res) => {
-  let temp = "none";
-  const group = await Group.findById(req.body.group);
-  if (req.body.template !== "none") {
-    temp = await Template.findById(req.body.template);
-  } else {
-    temp = "none";
+  try {
+    const group = await Group.findById(req.body.group);
+    if (!group)
+      return res.status(404).send({ success: false, message: "Group not found" });
+
+    let temp = null;
+    if (req.body.template !== "none") {
+      temp = await Template.findById(req.body.template);
+      if (!temp)
+        return res.status(404).send({ success: false, message: "Template not found" });
+    }
+
+
+    {/**  Convert CSV emails to array
+    let recipientEmails = [];
+    if (group.emails) {
+      recipientEmails = group.emails
+        .split(",")
+        .map((email) => email.trim())
+        .filter((email) => email);
+    }
+
+    if (recipientEmails.length === 0) {
+      return res
+        .status(400)
+        .send({ success: false, message: "No emails found in the group" });
+    }
+        */}
+
+    const msg = req.body.message || "";
+    const templateContent = temp ? temp.content : "";
+    
+    try {
+      await sendMail(group.emails, req.body.subject, msg, templateContent);
+    } catch (err) {
+      console.error("SendMail Error:", err.message);
+      console.error("FULL ERROR:", err); // <- full raw AWS SES error
+      return res.status(500).send({ success: false, message: "Failed to send emails" });
+    }
+
+
+    const sendBox = new Sent({
+      userId: req.user._id,
+      subject: req.body.subject,
+      groupId: req.body.group,
+      message: temp ? temp.name : "Custom message",
+    });
+
+    const result = await sendBox.save();
+    if (!result)
+      return res.status(500).send({
+        success: false,
+        message: "Failed to add send record",
+      });
+
+    return res.status(200).send({ success: true, message: "successfully sent" });
+
+  } catch (err) {
+    console.error("SendMail Error:", err);
+    return res.status(500).send({ success: false, message: "Failed to send emails" });
   }
-  if (!group)
-    return res.status(404).send({ success: false, message: "Group not found" });
-  const msg = req.body.message ? req.body.message : " ";
-  const template = temp !== "none" ? temp.content : " ";
-  const send = await sendMail(group.emails, req.body.subject, msg, template);
-  const sendBox = new Sent({
-    userId: req.user._id,
-    subject: req.body.subject,
-    groupId: req.body.group,
-    message: req.body.template !== "none" ? temp.name : "Custom message",
-  });
-  const result = await sendBox.save();
-  if (!result)
-    return res
-      .status(500)
-      .send({ success: false, message: "Failed to add send record" });
-  res.status(200).send({ success: true, message: "successfully send" });
 };
+
 
 const deleteGroup = async (req, res) => {
   const group = await Group.findByIdAndDelete(req.params.id);

@@ -1,27 +1,27 @@
-const sgMail = require("@sendgrid/mail");
+const ses = require("../utils/ses");
 
-const sendMail = (mails, subject, message, template) => {
-  sgMail.setApiKey(process.env.Mail_Secret);
-  const msg = {
-    to: mails,
-    from: "vishnusatheeshdev@gmail.com",
-    subject: subject,
-    text: message,
+const sendMail = async (emails, subject, html) => {
+  if (!Array.isArray(emails)) emails = [emails];
+  const params = {
+    Destination: {
+      ToAddresses: emails,
+    },
+    Message: {
+      Body: {
+        Html: {
+          Charset: "UTF-8",
+          Data: html,
+        },
+      },
+      Subject: {
+        Charset: "UTF-8",
+        Data: subject,
+      },
+    },
+    Source: process.env.AWS_SES_FROM,
   };
 
-  if (template !== " ") {
-    msg.html = template;
-  }
-
-  sgMail;
-  sgMail
-    .send(msg)
-    .then(() => {
-      console.log("Email sent");
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  return ses.sendEmail(params).promise();
 };
 
-module.exports = { sendMail };
+module.exports = sendMail;

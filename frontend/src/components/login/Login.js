@@ -26,50 +26,50 @@ function Login() {
 
   return (
     <div>
-      <main class='sign-up'>
-        <div class='sign-up__container'>
-          <div class='sign-up__image'>
+      <main className='sign-up'>
+        <div className='sign-up__container'>
+          <div className='sign-up__image'>
             <img
-              src={require("../../assests/login-1.jpg")}
+              src={require("../../assests/SwapSo-login.png")}
               alt='login'
               className='login-image'
             />
           </div>
-          <div class='sign-up__content'>
-            <header class='sign-up__header'>
-              <h1 class='sign-up__title'>Login</h1>
-              <p class='sign-up__descr'>Welcome, Please login your account.</p>
+          <div className='sign-up__content'>
+            <header className='sign-up__header'>
+              <h1 className='sign-up__title'>Login</h1>
+              <p className='sign-up__descr'>Welcome, Please login your account.</p>
             </header>
-            <div class='sign-up__form form'>
-              <div class='form__row'>
-                <div class='input'>
-                  <div class='input__container'>
+            <div className='sign-up__form form'>
+              <div className='form__row'>
+                <div className='input'>
+                  <div className='input__container'>
                     <input
-                      class='input__field'
+                      className='input__field'
                       id='email'
                       placeholder='Email'
                       required
                       type='email'
                       onChange={(e) => setEmail(e.target.value)}
                     />
-                    <label class='input__label' for='email'>
+                    <label className='input__label' for='email'>
                       Email
                     </label>
                   </div>
                 </div>
               </div>
-              <div class='form__row'>
-                <div class='input'>
-                  <div class='input__container'>
+              <div className='form__row'>
+                <div className='input'>
+                  <div className='input__container'>
                     <input
-                      class='input__field'
+                      className='input__field'
                       id='password'
                       placeholder='Password'
                       required
                       type='password'
                       onChange={(e) => setPassword(e.target.value)}
                     />
-                    <label class='input__label' for='password'>
+                    <label className='input__label' for='password'>
                       Password
                     </label>
                   </div>
@@ -81,10 +81,10 @@ function Login() {
                 )}
               </div>
 
-              <div class='form__row'>
-                <div class='component component--primary form__button'>
+              <div className='form__row'>
+                <div className='component component--primary form__button'>
                   <button
-                    class='btn btn--regular'
+                    className='btn btn--regular'
                     disabled=''
                     id='sign-up-button'
                     tabindex='0'
@@ -94,7 +94,7 @@ function Login() {
                   </button>
                 </div>
               </div>
-              <div class='form__row sign-up__sign'>
+              <div className='form__row sign-up__sign'>
                 Don't have an account? &nbsp;
                 <Link to='/register' className='link'>
                   Sign up.

@@ -16,11 +16,11 @@ function NewTemp() {
   const handleSave = () => {
     const token = getToken();
     const config = {
-      headers: { Authorization: token },
+      headers: { Authorization: `Bearer ${token}` },
     };
     axios
       .post(
-        "http://localhost:3100/api/v1/user/newtemplate",
+        "http://localhost:3100/api/user/newtemplate",
         {
           content: code,
           name: name,

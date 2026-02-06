@@ -20,10 +20,10 @@ function Templates() {
   useEffect(() => {
     const token = getToken();
     const config = {
-      headers: { Authorization: token },
+      headers: { Authorization: `Bearer ${token}` },
     };
     axios
-      .get("http://localhost:3100/api/v1/user/viewtemplates", config)
+      .get("http://localhost:3100/api/user/viewtemplates", config)
       .then((res) => {
         setTemplates(res.data.templates);
       })
@@ -55,7 +55,7 @@ function Templates() {
 
   const onHandleConfirm = () => {
     axios
-      .post(`http://localhost:3100/api/v1/user/deletetemplate/${templateId}`)
+      .post(`http://localhost:3100/api/user/deletetemplate/${templateId}`)
       .then((res) => {
         console.log("successfully deleted");
         setModalClose(true);

@@ -3,7 +3,7 @@ import axios from "axios";
 export const signup = (user) => {
   const { firstName, lastName, email, password } = user;
   return axios
-    .post("http://localhost:3100/api/v1/register", {
+    .post("http://localhost:3100/api/register", {
       firstName,
       lastName,
       email,
@@ -20,7 +20,7 @@ export const signup = (user) => {
 
 export const signin = (email, password) => {
   return axios
-    .post("http://localhost:3100/api/v1/login", { email, password })
+    .post("http://localhost:3100/api/login", { email, password })
     .then(async (res) => {
       saveToken(res.data.token);
       return {
@@ -39,23 +39,22 @@ export const signin = (email, password) => {
 };
 
 const saveToken = (token) => {
-  const data = `Bearer ${token}`;
-  window.localStorage.setItem("MailFlow", data);
+  window.localStorage.setItem("SwapSoUser", token);
 };
 
 export const getToken = () => {
-  return window.localStorage.getItem("MailFlow");
+  return window.localStorage.getItem("SwapSoUser");
 };
 
 export const signout = () => {
-  window.localStorage.removeItem("MailFlow");
+  window.localStorage.removeItem("SwapSoUser");
 };
 
 export const isAuthenticated = () => {
   if (typeof window == "undefined") {
     return false;
   }
-  if (localStorage.getItem("MailFlow")) {
+  if (localStorage.getItem("SwapSoUser")) {
     return true;
   } else {
     return false;

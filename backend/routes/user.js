@@ -17,7 +17,7 @@ router.post("/addgroup", protect, addGroup);
 router.post("/sendmail", protect, sendMails);
 router.post("/deletegroup/:id", deleteGroup);
 router.post("/newtemplate", protect, newTemplate);
-router.post("/deletetemplate/:id", deleteTemplate);
+router.post("/deletetemplate/:id", protect, deleteTemplate);
 router.get("/viewtemplates", protect, viewTemplates);
 router.get("/viewgroups", protect, viewGroups);
 router.get("/sentdetails", protect, sentDetails);

@@ -44,19 +44,19 @@ function Register() {
   return (
     <div>
       <div>
-        <main class='sign-up'>
-          <div class='sign-up__container'>
-            <div class='sign-up__image'>
+        <main className='sign-up'>
+          <div className='sign-up__container'>
+            <div className='sign-up__image'>
               <img
-                src={require("../../assests/login-1.jpg")}
+                src={require("../../assests/SwapSo-login.png")}
                 alt='login'
                 className='login-image'
               />
             </div>
-            <div class='sign-up__content'>
-              <header class='sign-up__header'>
-                <h1 class='sign-up__title'>Sign up</h1>
-                <p class='sign-up__descr'>
+            <div className='sign-up__content'>
+              <header className='sign-up__header'>
+                <h1 className='sign-up__title'>Sign up</h1>
+                <p className='sign-up__descr'>
                   Welcome, Please Sign up your account.
                 </p>
               </header>
@@ -64,7 +64,7 @@ function Register() {
                 <Formik
                   initialValues={{
                     firstName: "",
-                    lastNameame: "",
+                    lastName: "",
                     email: "",
                     password: "",
                     confirmPassword: "",
@@ -76,16 +76,16 @@ function Register() {
                 >
                   {({ errors, touched }) => (
                     <Form method='post'>
-                      <div class='form__row form__row--two'>
-                        <div class='input form__inline-input'>
-                          <div class='input__container'>
+                      <div className='form__row form__row--two'>
+                        <div className='input form__inline-input'>
+                          <div className='input__container'>
                             <Field
                               name='firstName'
                               className='input__field'
                               id='first-name'
                               placeholder='First Name'
                             />
-                            <label class='input__label' for='first-name'>
+                            <label className='input__label' for='first-name'>
                               First Name
                             </label>
                             {errors.firstName && touched.firstName ? (
@@ -95,15 +95,15 @@ function Register() {
                             ) : null}
                           </div>
                         </div>
-                        <div class='input form__inline-input'>
-                          <div class='input__container'>
+                        <div className='input form__inline-input'>
+                          <div className='input__container'>
                             <Field
                               name='lastName'
                               className='input__field'
                               id='last-name'
                               placeholder='Last Name'
                             />
-                            <label class='input__label' for='last-name'>
+                            <label className='input__label' for='last-name'>
                               Last Name
                             </label>
                             {errors.lastName && touched.lastName ? (
@@ -114,16 +114,16 @@ function Register() {
                           </div>
                         </div>
                       </div>
-                      <div class='form__row'>
-                        <div class='input'>
-                          <div class='input__container'>
+                      <div className='form__row'>
+                        <div className='input'>
+                          <div className='input__container'>
                             <Field
                               name='email'
                               className='input__field'
                               id='email'
                               placeholder='Email'
                             />
-                            <label class='input__label' for='email'>
+                            <label className='input__label' for='email'>
                               Email
                             </label>
                             {errors.email && touched.email ? (
@@ -132,9 +132,9 @@ function Register() {
                           </div>
                         </div>
                       </div>
-                      <div class='form__row'>
-                        <div class='input'>
-                          <div class='input__container'>
+                      <div className='form__row'>
+                        <div className='input'>
+                          <div className='input__container'>
                             <Field
                               name='password'
                               className='input__field'
@@ -142,7 +142,7 @@ function Register() {
                               placeholder='Password'
                               type='password'
                             />
-                            <label class='input__label' for='password'>
+                            <label className='input__label' for='password'>
                               Password
                             </label>
                             {errors.password && touched.password ? (
@@ -153,16 +153,16 @@ function Register() {
                           </div>
                         </div>
                       </div>
-                      <div class='form__row'>
-                        <div class='input'>
-                          <div class='input__container'>
+                      <div className='form__row'>
+                        <div className='input'>
+                          <div className='input__container'>
                             <Field
                               name='confirmPassword'
                               className='input__field'
                               id='confirm-password'
                               placeholder='Confirm Password'
                             />
-                            <label class='input__label' for='confirm-password'>
+                            <label className='input__label' for='confirm-password'>
                               Confirm password
                             </label>
                             {errors.confirmPassword &&
@@ -174,9 +174,9 @@ function Register() {
                           </div>
                         </div>
                       </div>
-                      <div class='form__row'>
-                        <div class='input-checkbox'>
-                          <div class='input-checkbox__container'>
+                      <div className='form__row'>
+                        <div className='input-checkbox'>
+                          <div className='input-checkbox__container'>
                             <input
                               checked=''
                               class='input-checkbox__field'
@@ -185,17 +185,17 @@ function Register() {
                               tabindex='0'
                               type='checkbox'
                             />
-                            <span class='input-checkbox__square'></span>
-                            <label class='input-checkbox__label' for='agree'>
+                            <span className='input-checkbox__square'></span>
+                            <label className='input-checkbox__label' for='agree'>
                               I agree with terms and conditions
                             </label>
                           </div>
                         </div>
                       </div>
-                      <div class='form__row'>
-                        <div class='component component--primary form__button'>
+                      <div className='form__row'>
+                        <div className='component component--primary form__button'>
                           <button
-                            class='btn btn--regular'
+                            className='btn btn--regular'
                             disabled=''
                             id='sign-up-button'
                             tabindex='0'
@@ -205,7 +205,7 @@ function Register() {
                           </button>
                         </div>
                       </div>
-                      <div class='form__row sign-up__sign'>
+                      <div className='form__row sign-up__sign'>
                         Already have an account? &nbsp;
                         <Link to='/login' className='link'>
                           Login.

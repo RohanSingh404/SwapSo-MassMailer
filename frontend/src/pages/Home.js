@@ -12,14 +12,14 @@ function Home() {
   useEffect(() => {
     const token = getToken();
     const config = {
-      headers: { Authorization: token },
+      headers: { Authorization: `Bearer ${token}` },
     };
     axios
-      .get("http://localhost:3100/api/v1/user/dashboard", config)
-      .then((res) => {
-        setData(res.data);
-      })
-      .catch((err) => console.log(err));
+  .get("http://localhost:3100/api/user/dashboard", config)
+  .then((res) => {
+    setData(res.data);
+  })
+  .catch((err) => console.log(err));
   }, []);
 
   return (

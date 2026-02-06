@@ -19,10 +19,10 @@ function Send() {
   useEffect(() => {
     const token = getToken();
     const config = {
-      headers: { Authorization: token },
+      headers: { Authorization: `Bearer ${token}` },
     };
     axios
-      .get("http://localhost:3100/api/v1/user/viewgroups", config)
+      .get("http://localhost:3100/api/user/viewgroups", config)
       .then((res) => {
         console.log(res.data.groups);
         setGroups(res.data.groups);
@@ -30,37 +30,43 @@ function Send() {
       .catch((err) => console.log(err));
   }, []);
 
-  const handleSubmit = () => {
-    console.log("clicked!");
-    const token = getToken();
-    const config = {
-      headers: { Authorization: token },
-    };
-    axios
-      .post(
-        "http://localhost:3100/api/v1/user/sendmail",
-        {
-          group,
-          subject,
-          message,
-          template,
-        },
-        config
-      )
-      .then((res) => {
-        toast.success("Successfully send mails", {
-          position: "bottom-right",
-          autoClose: 3000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      })
-      .catch((err) => console.log(err));
+  console.log("Sending email with payload:", { group, subject, message, template });
+
+
+  const handleSubmit = async () => {
+  console.log("clicked!");
+  const token = getToken();
+  const config = {
+    headers: { Authorization: `Bearer ${token}` },
   };
+
+  try {
+    const res = await axios.post(
+      "http://localhost:3100/api/user/sendmail",
+      { group, subject, message, template },
+      config
+    );
+
+    toast.success("Successfully sent mails", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
+  } catch (err) {
+    console.log(err);
+    toast.error("Failed to send mails", {
+      position: "bottom-right",
+      autoClose: 3000,
+      theme: "light",
+    });
+  }
+};
+
 
   const handleTemplateOption = (id) => {
     setTemplate(id);

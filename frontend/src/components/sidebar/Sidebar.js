@@ -13,11 +13,11 @@ function Sidebar() {
         <header>
           <div className='image-text'>
             <span className='image'>
-              <img src={require("../../assests/logo.png")} alt='' />
+              <img src={require("../../assests/swapso-logo.png")} alt='' />
             </span>
 
             <div className='text logo-text'>
-              <span className='name'>MailFlow</span>
+              <span className='name'>SwapSoMassMailer</span>
             </div>
           </div>
         </header>

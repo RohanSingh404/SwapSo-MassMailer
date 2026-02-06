@@ -11,10 +11,10 @@ function SentDetails() {
   useEffect(() => {
     const token = getToken();
     const config = {
-      headers: { Authorization: token },
+      headers: { Authorization: `Bearer ${token}` },
     };
     axios
-      .get("http://localhost:3100/api/v1/user/sentdetails", config)
+      .get("http://localhost:3100/api/user/sentdetails", config)
       .then((res) => {
         console.log(res.data.mails);
         setData(res.data.mails);

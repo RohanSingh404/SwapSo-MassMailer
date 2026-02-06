@@ -9,10 +9,10 @@ function TemplateOption({ handleTemplateOption }) {
   useEffect(() => {
     const token = getToken();
     const config = {
-      headers: { Authorization: token },
+      headers: { Authorization: `Bearer ${token}` },
     };
     axios
-      .get("http://localhost:3100/api/v1/user/viewtemplates", config)
+      .get("http://localhost:3100/api/user/viewtemplates", config)
       .then((res) => {
         setTemplates(res.data.templates);
       })
@@ -21,15 +21,15 @@ function TemplateOption({ handleTemplateOption }) {
 
   return (
     <div>
-      <div class='card-temp'>
-        <h2 class='card-temp-title'>Select Template</h2>
-        <div class='card-temp-image'>
+      <div className='card-temp'>
+        <h2 className='card-temp-title'>Select Template</h2>
+        <div className='card-temp-image'>
           <img
             src='https://static.vecteezy.com/system/resources/thumbnails/006/685/711/small_2x/illustration-graphic-cartoon-character-of-email-services-free-vector.jpg'
             alt='Template option'
           />
         </div>
-        <div class='card-temp-select'>
+        <div className='card-temp-select'>
           <label for='select-option'>Select Option:</label>
           <select
             id='select-option'
