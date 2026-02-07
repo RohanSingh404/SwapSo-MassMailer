@@ -38,7 +38,7 @@ export const signin = (email, password) => {
     });
 };
 
-const saveToken = (token) => {
+export const saveToken = (token) => {
   window.localStorage.setItem("SwapSoUser", token);
 };
 
