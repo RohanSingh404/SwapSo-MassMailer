@@ -41,41 +41,32 @@ const sendMails = async (req, res) => {
     if (!group)
       return res.status(404).send({ success: false, message: "Group not found" });
 
+    // fetch template only if template id is valid
     let temp = null;
-    if (req.body.template !== "none") {
+    if (req.body.template && req.body.template !== "none") {
       temp = await Template.findById(req.body.template);
       if (!temp)
         return res.status(404).send({ success: false, message: "Template not found" });
     }
 
-
-    {/**  Convert CSV emails to array
-    let recipientEmails = [];
-    if (group.emails) {
-      recipientEmails = group.emails
-        .split(",")
-        .map((email) => email.trim())
-        .filter((email) => email);
-    }
-
-    if (recipientEmails.length === 0) {
-      return res
-        .status(400)
-        .send({ success: false, message: "No emails found in the group" });
-    }
-        */}
-
     const msg = req.body.message || "";
-    const templateContent = temp ? temp.content : "";
-    
-    try {
-      await sendMail(group.emails, req.body.subject, msg, templateContent);
-    } catch (err) {
-      console.error("SendMail Error:", err.message);
-      console.error("FULL ERROR:", err); // <- full raw AWS SES error
-      return res.status(500).send({ success: false, message: "Failed to send emails" });
+    let finalHtml = "";
+    let finalText = msg;
+
+    if (temp) {
+      // Template selected → replace {{message}}
+      finalHtml = temp.content.replace(/{{message}}/g, msg);
+    } else if (msg.includes("{{message}}")) {
+      // User pasted full HTML containing {{message}}
+      finalHtml = msg.replace(/{{message}}/g, "");
+    } else {
+      // Plain text → wrap in default HTML
+      finalHtml = `<div style="font-family:sans-serif; font-size:16px;">${msg}</div>`;
     }
 
+    console.log("FINAL HTML TO SEND:", finalHtml);
+
+    await sendMail(group.emails, req.body.subject, finalHtml, finalText);
 
     const sendBox = new Sent({
       userId: req.user._id,
@@ -84,20 +75,17 @@ const sendMails = async (req, res) => {
       message: temp ? temp.name : "Custom message",
     });
 
-    const result = await sendBox.save();
-    if (!result)
-      return res.status(500).send({
-        success: false,
-        message: "Failed to add send record",
-      });
+    await sendBox.save();
 
-    return res.status(200).send({ success: true, message: "successfully sent" });
+    return res.status(200).send({ success: true, message: "Successfully sent" });
 
   } catch (err) {
     console.error("SendMail Error:", err);
     return res.status(500).send({ success: false, message: "Failed to send emails" });
   }
 };
+
+
 
 
 const deleteGroup = async (req, res) => {

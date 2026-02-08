@@ -1,8 +1,8 @@
-import axios from "axios";
+import API from "../utils/api";
 
 export const signup = (user) => {
   const { firstName, lastName, email, password } = user;
-  return axios
+  return API
     .post("/api/register", {
       firstName,
       lastName,
@@ -19,7 +19,7 @@ export const signup = (user) => {
 };
 
 export const signin = (email, password) => {
-  return axios
+  return API
     .post("/api/login", { email, password })
     .then(async (res) => {
       saveToken(res.data.token);

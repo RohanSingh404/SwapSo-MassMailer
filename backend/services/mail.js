@@ -1,6 +1,6 @@
 const ses = require("../utils/ses");
 
-const sendMail = async (emails, subject, html) => {
+const sendMail = async (emails, subject, html , text) => {
   if (!Array.isArray(emails)) emails = [emails];
   const params = {
     Destination: {
@@ -12,6 +12,10 @@ const sendMail = async (emails, subject, html) => {
           Charset: "UTF-8",
           Data: html,
         },
+        Text: { 
+          Charset: "UTF-8",
+          Data: text || "Your email client does not support HTML emails." 
+        }
       },
       Subject: {
         Charset: "UTF-8",

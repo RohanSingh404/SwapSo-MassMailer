@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const path = require("path");
 const connectDB = require("./config/db/db");
 
 const app = express();
@@ -12,7 +13,20 @@ connectDB();
 
 // Middlewares
 app.use(express.json({ limit: "25mb" }));
-app.use(cors());
+
+
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",  // for local development
+      "https://massswapsomailer-m3hql91c0-rohansinghiitian6395-4082s-projects.vercel.app" // your frontend URL
+    ],
+    credentials: true,
+  })
+);
+
+
+
 app.use(morgan("tiny"));
 
 // Routes
@@ -22,5 +36,28 @@ const commonRoutes = require("./routes/common");
 app.use("/api/user", userRoutes);
 app.use("/api", commonRoutes);
 
-const port = process.env.PORT || 3100;
-app.listen(port, () => console.log(`listening on port ${port}`));
+
+
+// ✅ ===== SERVE FRONTEND (React/Vite) =====
+
+// Path to frontend build folder
+const frontendPath = path.join(__dirname, "..", "frontend", "dist");
+
+// Serve static files
+app.use(express.static(frontendPath));
+
+// React router fallback (important)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(frontendPath, "index.html"));
+  
+});
+
+if (process.env.NODE_ENV !== "production") {
+  const port = process.env.PORT || 3100;
+  app.listen(port, () => {
+    console.log(`🚀 Local server running at http://localhost:${port}`);
+  });
+}
+
+// Start Server
+module.exports = app;
