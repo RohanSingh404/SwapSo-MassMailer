@@ -52,12 +52,7 @@ app.get("*", (req, res) => {
   
 });
 
-if (process.env.NODE_ENV !== "production") {
-  const port = process.env.PORT || 3100;
-  app.listen(port, () => {
-    console.log(`🚀 Local server running at http://localhost:${port}`);
-  });
-}
+
 
 // Start Server
 module.exports = app;
