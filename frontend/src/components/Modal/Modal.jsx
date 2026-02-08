@@ -42,7 +42,7 @@ const GroupModal = ({ handleModal }) => {
     setIsLoading(true);
     axios
       .post(
-        `http://localhost:3100/api/user/addgroup`,
+        `/api/user/addgroup`,
         {
           name: name,
           emails: validEmails,

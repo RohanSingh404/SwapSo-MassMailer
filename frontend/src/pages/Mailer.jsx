@@ -22,7 +22,7 @@ function Send() {
       headers: { Authorization: `Bearer ${token}` },
     };
     axios
-      .get("http://localhost:3100/api/user/viewgroups", config)
+      .get("/api/user/viewgroups", config)
       .then((res) => {
         console.log(res.data.groups);
         setGroups(res.data.groups);
@@ -42,7 +42,7 @@ function Send() {
 
   try {
     const res = await axios.post(
-      "http://localhost:3100/api/user/sendmail",
+      "/api/user/sendmail",
       { group, subject, message, template },
       config
     );

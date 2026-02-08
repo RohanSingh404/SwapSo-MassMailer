@@ -20,7 +20,7 @@ function NewTemp() {
     };
     axios
       .post(
-        "http://localhost:3100/api/user/newtemplate",
+        "/api/user/newtemplate",
         {
           content: code,
           name: name,

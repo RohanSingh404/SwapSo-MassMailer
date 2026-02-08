@@ -44,7 +44,7 @@ function Groups() {
 
   const onHandleConfirm = () => {
     axios
-      .post(`http://localhost:3100/api/user/deletegroup/${groupId}`)
+      .post(`/api/user/deletegroup/${groupId}`)
       .then((res) => {
         console.log("successfully deleted");
         setModalClose(true);
@@ -72,7 +72,7 @@ function Groups() {
       headers: { Authorization: `Bearer ${token}` },
     };
     axios
-      .get("http://localhost:3100/api/user/viewgroups", config)
+      .get("/api/user/viewgroups", config)
       .then((res) => {
         setGroups(res.data.groups);
       })

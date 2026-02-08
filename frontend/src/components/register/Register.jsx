@@ -4,6 +4,7 @@ import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 import { signup } from "../../auth/auth";
+import loginImage from "../../assets/SwapSo-login.png";
 import "../login/login.css";
 
 function Register() {
@@ -48,7 +49,7 @@ function Register() {
           <div className='sign-up__container'>
             <div className='sign-up__image'>
               <img
-                src={require("../../assests/SwapSo-login.png")}
+                src={loginImage}
                 alt='login'
                 className='login-image'
               />

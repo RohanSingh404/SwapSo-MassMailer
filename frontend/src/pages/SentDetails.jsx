@@ -14,7 +14,7 @@ function SentDetails() {
       headers: { Authorization: `Bearer ${token}` },
     };
     axios
-      .get("http://localhost:3100/api/user/sentdetails", config)
+      .get("/api/user/sentdetails", config)
       .then((res) => {
         console.log(res.data.mails);
         setData(res.data.mails);

@@ -22,7 +22,7 @@ function Templates() {
       headers: { Authorization: `Bearer ${token}` },
     };
     axios
-      .get("http://localhost:3100/api/user/viewtemplates", config)
+      .get("/api/user/viewtemplates", config)
       .then((res) => {
         setTemplates(res.data.templates);
       })
@@ -60,7 +60,7 @@ function Templates() {
 
   axios
     .post(
-      `http://localhost:3100/api/user/deletetemplate/${templateId}`,
+      `/api/user/deletetemplate/${templateId}`,
       {},
       config
     )

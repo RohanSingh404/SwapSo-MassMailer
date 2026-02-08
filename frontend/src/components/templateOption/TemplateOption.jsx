@@ -12,7 +12,7 @@ function TemplateOption({ handleTemplateOption }) {
       headers: { Authorization: `Bearer ${token}` },
     };
     axios
-      .get("http://localhost:3100/api/user/viewtemplates", config)
+      .get("/api/user/viewtemplates", config)
       .then((res) => {
         setTemplates(res.data.templates);
       })

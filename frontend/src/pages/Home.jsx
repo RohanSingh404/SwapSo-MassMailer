@@ -15,7 +15,7 @@ function Home() {
       headers: { Authorization: `Bearer ${token}` },
     };
     axios
-  .get("http://localhost:3100/api/user/dashboard", config)
+  .get("/api/user/dashboard", config)
   .then((res) => {
     setData(res.data);
   })
